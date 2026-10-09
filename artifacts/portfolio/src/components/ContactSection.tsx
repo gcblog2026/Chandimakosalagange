@@ -3,11 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SiBehance, SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa";
 import { CheckCircle2, AlertCircle } from "lucide-react";
-import emailjs from "@emailjs/browser";
 
-const SERVICE_ID = String(import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "").trim();
-const TEMPLATE_ID = String(import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "").trim();
-const PUBLIC_KEY = String(import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "").trim();
 const TO_EMAIL = "gckosala@gmail.com";
 
 const socials = [
@@ -108,61 +104,34 @@ export default function ContactSection() {
       return;
     }
 
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !TO_EMAIL) {
-      setError("Email service is not configured yet. Please try again later.");
-      return;
-    }
-
     setSubmitting(true);
     setError("");
 
     try {
-      const formattedMessage = [
-        `Name: ${form.name}`,
-        `Email: ${form.email}`,
-        `Subject: ${form.subject || "(No subject)"}`,
-        "",
-        "Message:",
-        form.message,
-      ].join("\n");
-      const result = await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          /* Common EmailJS variable name variants — covers any template setup */
-          from_name: form.name,
-          user_name: form.name,
-          name: form.name,
-          from_email: form.email,
-          user_email: form.email,
-          email: form.email,
-          reply_to: form.email,
-          subject: form.subject || "(No subject)",
-           message: formattedMessage,
-           message_html: formattedMessage.replace(/\n/g, "<br />"),
-           to_name: "Chandima Kosala",
-           ...(TO_EMAIL ? { to_email: TO_EMAIL } : {}),
-        },
-        PUBLIC_KEY
-      );
-      console.log("EmailJS success:", result.status, result.text);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const result = (await response.json().catch(() => ({}))) as {
+        error?: string;
+      };
+
+      if (!response.ok) {
+        if (result.error === "gmail_not_configured") {
+          setError("Email delivery is not configured yet. Please email me directly.");
+        } else if (result.error === "gmail_authentication_failed") {
+          setError("Gmail could not verify its saved App Password. Please email me directly.");
+        } else {
+          setError("Your message could not be sent. Please try again or email me directly.");
+        }
+        return;
+      }
+
       setSuccess(true);
       setForm({ name: "", email: "", subject: "", message: "" });
-    } catch (err: unknown) {
-      const ejsErr = err as { status?: number; text?: string; message?: string };
-      console.error("EmailJS error:", ejsErr);
-      const status = ejsErr.status ?? "?";
-      const detail = ejsErr.text || ejsErr.message || "Unknown error";
-      const normalizedDetail = detail.toLowerCase();
-      if (String(status) === "412" || normalizedDetail.includes("invalid grant")) {
-        setError("Email delivery needs the Gmail account connected to EmailJS to be reconnected.");
-      } else if (String(status) === "401" || normalizedDetail.includes("public key")) {
-        setError("Authentication failed — please check your EmailJS Public Key in Replit Secrets.");
-      } else if (String(status) === "400") {
-        setError("Template or Service ID not found — check your EmailJS Service ID and Template ID.");
-      } else {
-        setError(`Could not send (${status}: ${detail}). Please try again later.`);
-      }
+    } catch {
+      setError("Your message could not be sent. Please try again or email me directly.");
     } finally {
       setSubmitting(false);
     }

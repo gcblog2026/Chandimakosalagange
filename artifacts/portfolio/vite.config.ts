@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { handleContactRequest } from "./server/contact-handler.mjs";
 
 const rawPort = process.env.PORT;
 
@@ -32,6 +33,24 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    {
+      name: "portfolio-contact-api",
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          void handleContactRequest(req, res)
+            .then((handled) => {
+              if (!handled) next();
+            })
+            .catch(() => {
+              if (!res.headersSent) {
+                res.statusCode = 500;
+                res.setHeader("Content-Type", "application/json; charset=utf-8");
+                res.end(JSON.stringify({ error: "delivery_failed" }));
+              }
+            });
+        });
+      },
+    },
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
