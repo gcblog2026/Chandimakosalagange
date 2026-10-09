@@ -8,7 +8,7 @@ import emailjs from "@emailjs/browser";
 const SERVICE_ID = String(import.meta.env.VITE_EMAILJS_SERVICE_ID ?? "").trim();
 const TEMPLATE_ID = String(import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "").trim();
 const PUBLIC_KEY = String(import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? "").trim();
-const TO_EMAIL = String(import.meta.env.VITE_EMAILJS_TO_EMAIL ?? "").trim();
+const TO_EMAIL = "gckosala@gmail.com";
 
 const socials = [
   { Icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/chandima-kosala-gange-4b962644?utm_source=share_via&utm_content=profile&utm_medium=member_ios", color: "hover:text-[#0077b5]" },
@@ -108,7 +108,7 @@ export default function ContactSection() {
       return;
     }
 
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !TO_EMAIL) {
       setError("Email service is not configured yet. Please try again later.");
       return;
     }
@@ -287,6 +287,12 @@ export default function ContactSection() {
           >
             <div>
               <p className="text-xs uppercase tracking-widest text-white/40 mb-6">Connect</p>
+              <a
+                href={`mailto:${TO_EMAIL}`}
+                className="inline-block mb-6 text-sm text-white/60 hover:text-primary transition-colors"
+              >
+                {TO_EMAIL}
+              </a>
               <div className="flex items-center gap-6">
                 {socials.map(({ Icon, label, href, color }) => (
                   <a
