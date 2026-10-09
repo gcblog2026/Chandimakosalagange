@@ -16,9 +16,11 @@ export default function LoadingScreen() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative"
       >
-        <h1 className="text-6xl md:text-8xl font-serif text-white tracking-widest relative z-10">
-          CK
-        </h1>
+        <img
+          src="/images/loading-logo.jpg"
+          alt="Chandima Kosala logo"
+          className="relative z-10 h-36 w-36 object-contain md:h-48 md:w-48"
+        />
         <motion.div 
           className="absolute -inset-4 border border-primary/30 rounded-full"
           initial={{ scale: 0.5, opacity: 0 }}
