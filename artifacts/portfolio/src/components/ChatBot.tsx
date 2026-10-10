@@ -311,9 +311,9 @@ export default function ChatBot() {
               <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0d0d0d] shrink-0">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/images/assistant-logo.jpg"
+                    src="/images/assistant-profile.jpg"
                     alt="Chandima Kosala logo"
-                    className="w-8 h-8 rounded-full object-cover border border-primary/40"
+                    className="h-10 w-10 rounded-sm border border-primary/40 bg-black object-contain"
                   />
                   <div>
                     <p className="text-white text-sm font-medium leading-none">Chandima Kosala Assistant</p>
@@ -433,7 +433,7 @@ export default function ChatBot() {
         onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-24 right-5 z-[100] w-14 h-14 rounded-full border border-white/20 bg-black shadow-lg shadow-black/50 flex items-center justify-center"
+        className="fixed bottom-24 right-5 z-[100] w-14 h-14 rounded-xl border border-white/20 bg-black shadow-lg shadow-black/50 flex items-center justify-center"
         aria-label={open ? "Hide assistant" : "Open assistant"}
         title={open ? "Hide assistant" : "Open assistant"}
       >
@@ -457,9 +457,9 @@ export default function ChatBot() {
               transition={{ duration: 0.18 }}
             >
               <img
-                src="/images/assistant-logo.jpg"
+                src="/images/assistant-profile.jpg"
                 alt="Open Chandima Kosala Assistant"
-                className="h-11 w-11 rounded-full object-cover"
+                className="h-12 w-12 object-contain"
               />
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-black/20 bg-white text-black">
                 <ChevronUp size={13} />
