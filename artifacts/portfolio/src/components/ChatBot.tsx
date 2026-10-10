@@ -312,7 +312,7 @@ export default function ChatBot() {
                 <div className="flex items-center gap-3">
                   <img
                     src="/images/assistant-logo.jpg"
-                    alt="GC logo"
+                    alt="Chandima Kosala logo"
                     className="w-8 h-8 rounded-full object-cover border border-primary/40"
                   />
                   <div>
