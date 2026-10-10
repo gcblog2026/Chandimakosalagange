@@ -160,7 +160,7 @@ export default function Hero() {
         onMouseLeave={() => setPaused(false)}
       >
         {/* ── Slide backgrounds ── */}
-        <AnimatePresence mode="crossfade">
+        <AnimatePresence mode="sync">
           <motion.div
             key={safeSlideIndex}
             initial={{ opacity: 0, scale: 1.04 }}
