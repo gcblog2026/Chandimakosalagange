@@ -14,13 +14,15 @@ export default function LoadingScreen() {
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative"
+        className="relative aspect-square w-[min(82vw,620px)]"
       >
-        <img
-          src="/images/loading-logo.jpg"
-          alt="Chandima Kosala logo"
-          className="relative z-10 h-36 w-36 object-contain md:h-48 md:w-48"
-        />
+        <div className="absolute inset-0 z-10 overflow-hidden">
+          <img
+            src="/images/loading-logo.jpg"
+            alt="Chandima Kosala logo"
+            className="h-full w-full scale-[1.45] object-contain"
+          />
+        </div>
         <motion.div 
           className="absolute -inset-4 border border-primary/30 rounded-full"
           initial={{ scale: 0.5, opacity: 0 }}
