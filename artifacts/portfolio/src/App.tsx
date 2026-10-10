@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import PortfolioPage from "@/pages/Portfolio";
 import BlogPage from "@/pages/Blog";
 import InstagramPage from "@/pages/Instagram";
+import SitePrivacyProtection from "@/components/SitePrivacyProtection";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
           </Switch>
         </Router>
         <Toaster />
+        <SitePrivacyProtection />
       </TooltipProvider>
     </QueryClientProvider>
   );
