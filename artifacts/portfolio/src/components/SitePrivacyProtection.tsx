@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-const watermarkCount = 12;
-
 export default function SitePrivacyProtection() {
   useEffect(() => {
     const handleContextMenu = (event: MouseEvent) => {
@@ -46,11 +44,5 @@ export default function SitePrivacyProtection() {
     };
   }, []);
 
-  return (
-    <div className="site-privacy-watermark" aria-hidden="true">
-      {Array.from({ length: watermarkCount }, (_, index) => (
-        <span key={index}>© CHANDIMA KOSALA · ORIGINAL WORK</span>
-      ))}
-    </div>
-  );
+  return null;
 }
