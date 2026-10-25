@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Router, Route, Switch } from "wouter";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import PortfolioPage from "@/pages/Portfolio";
@@ -13,16 +14,24 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Router>
-          <Switch>
-            <Route path="/" component={PortfolioPage} />
-            <Route path="/blog" component={BlogPage} />
-            <Route path="/instagram" component={InstagramPage} />
-            <Route component={PortfolioPage} />
-          </Switch>
-        </Router>
-        <Toaster />
-        <SitePrivacyProtection />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          storageKey="portfolio-theme"
+          disableTransitionOnChange
+        >
+          <Router>
+            <Switch>
+              <Route path="/" component={PortfolioPage} />
+              <Route path="/blog" component={BlogPage} />
+              <Route path="/instagram" component={InstagramPage} />
+              <Route component={PortfolioPage} />
+            </Switch>
+          </Router>
+          <Toaster />
+          <SitePrivacyProtection />
+        </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -301,7 +301,7 @@ export default function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-24 right-5 z-[100] w-[340px] sm:w-[380px] flex flex-col"
+            className="dark-surface fixed bottom-24 right-5 z-[100] w-[340px] sm:w-[380px] flex flex-col"
             style={{ maxHeight: "calc(100vh - 120px)" }}
           >
             <div className="flex flex-col rounded-sm border border-white/10 bg-[#0a0a0a] shadow-2xl overflow-hidden"
@@ -433,7 +433,7 @@ export default function ChatBot() {
         onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-24 right-5 z-[100] w-14 h-14 rounded-xl border border-white/20 bg-black shadow-lg shadow-black/50 flex items-center justify-center"
+        className="dark-surface fixed bottom-24 right-5 z-[100] w-14 h-14 rounded-xl border border-white/20 bg-black shadow-lg shadow-black/50 flex items-center justify-center"
         aria-label={open ? "Hide assistant" : "Open assistant"}
         title={open ? "Hide assistant" : "Open assistant"}
       >

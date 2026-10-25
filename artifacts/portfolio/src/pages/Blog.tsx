@@ -87,7 +87,7 @@ export default function BlogPage() {
   const rest = filtered.filter((p) => !p.featured || activeCategory !== "All");
 
   return (
-    <div className="bg-black min-h-screen text-white selection:bg-primary selection:text-black">
+    <div className="theme-page-shell bg-black min-h-screen text-white selection:bg-primary selection:text-black">
       <Navbar />
 
       <main className="pt-32 pb-24">

@@ -79,7 +79,7 @@ export default function InstagramPage() {
   }, [isPlaying]);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
+    <div className="theme-page-shell min-h-screen bg-black text-white selection:bg-primary selection:text-black">
       <Navbar />
 
       <main className="pt-32 pb-24">
@@ -126,7 +126,7 @@ export default function InstagramPage() {
             aria-label="Tea packaging image slider"
           >
             <div className="grid min-h-[520px] grid-cols-1 lg:grid-cols-[1.35fr_0.65fr]">
-              <div className="relative min-h-[360px] overflow-hidden bg-black">
+              <div className="dark-surface relative min-h-[360px] overflow-hidden bg-black">
                 <motion.img
                   key={activeSlide.image}
                   src={activeSlide.image}

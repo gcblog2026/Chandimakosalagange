@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { useTheme } from "next-themes";
 
 const navLinks = [
   { name: "Home", href: "#home", section: true },
@@ -17,6 +18,7 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
   const [location] = useLocation();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -26,6 +28,7 @@ export default function Navbar() {
   });
 
   const isOnSpecialPage = location === "/blog" || location === "/instagram";
+  const isLightTheme = resolvedTheme === "light";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -53,7 +56,7 @@ export default function Navbar() {
       />
 
       <header
-        className={`fixed top-0 w-full z-40 transition-all duration-300 ${
+        className={`site-navbar fixed top-0 w-full z-40 transition-all duration-300 ${
           isScrolled
             ? "bg-black/90 backdrop-blur-md border-b border-white/5 py-3"
             : "bg-transparent py-5"
@@ -106,18 +109,34 @@ export default function Navbar() {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Right: GC Logo */}
-          <Link
-            href="/"
-            data-testid="link-logo-home"
-            className="block flex-shrink-0"
-          >
-            <img
-              src="/images/logo-gc.jpg"
-              alt="GC Logo"
-              className="w-[70px] h-[70px] object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
-            />
-          </Link>
+          {/* Right: theme switch and GC Logo */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setTheme(isLightTheme ? "dark" : "light")}
+              aria-label={`Switch to ${isLightTheme ? "dark" : "light"} mode`}
+              aria-pressed={isLightTheme}
+              title={`Switch to ${isLightTheme ? "dark" : "light"} mode`}
+              data-testid="button-theme-toggle"
+              className="inline-flex h-10 w-10 sm:w-auto items-center justify-center gap-2 rounded-full border border-white/20 px-0 text-white/80 transition-colors hover:border-primary hover:text-primary sm:px-3"
+            >
+              {isLightTheme ? <Moon size={17} /> : <Sun size={17} />}
+              <span className="hidden text-[11px] uppercase tracking-widest sm:inline">
+                {isLightTheme ? "Dark mode" : "Light mode"}
+              </span>
+            </button>
+            <Link
+              href="/"
+              data-testid="link-logo-home"
+              className="block flex-shrink-0"
+            >
+              <img
+                src="/images/logo-gc.jpg"
+                alt="GC Logo"
+                className="w-[70px] h-[70px] object-contain opacity-90 hover:opacity-100 transition-opacity duration-300"
+              />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -126,7 +145,7 @@ export default function Navbar() {
         initial={false}
         animate={mobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: "100%" }}
         transition={{ duration: 0.3 }}
-        className="fixed inset-0 bg-black z-30 flex flex-col items-center justify-center md:hidden"
+        className="site-mobile-menu fixed inset-0 bg-black z-30 flex flex-col items-center justify-center md:hidden"
         style={{ pointerEvents: mobileMenuOpen ? "auto" : "none" }}
       >
         <nav className="flex flex-col items-center gap-8">

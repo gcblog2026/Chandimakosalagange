@@ -76,7 +76,7 @@ function YouTubeModal({ videoId, onClose }: { videoId: string; onClose: () => vo
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90"
+      className="dark-surface fixed inset-0 z-[200] flex items-center justify-center bg-black/90"
       onClick={onClose}
     >
       <motion.div
@@ -155,7 +155,7 @@ export default function Hero() {
     <>
       <section
         id="home"
-        className="relative w-full h-screen overflow-hidden"
+        className="dark-surface relative w-full h-screen overflow-hidden"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >

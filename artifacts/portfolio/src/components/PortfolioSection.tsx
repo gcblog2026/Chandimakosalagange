@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn } from "lucide-react";
+import { RotateCcw, X, ZoomIn, ZoomOut } from "lucide-react";
 
 const categories = [
   "All",
@@ -103,6 +103,18 @@ const projects = [
     image: "/images/portfolio/tea-loving-tea-tin-range.png",
   },
   {
+    id: 28,
+    title: "The Loving Tea — Green & Black Iced Tea",
+    category: "Tea Packaging",
+    image: "/images/portfolio/tea-green-black-iced-tea.webp",
+  },
+  {
+    id: 29,
+    title: "The Loving Tea — Lemon Mixed Chocolate",
+    category: "Tea Packaging",
+    image: "/images/portfolio/tea-lemon-mixed-chocolate.webp",
+  },
+  {
     id: 7,
     title: "The Loving Choco Co. — Brand & Packaging",
     category: "Packaging",
@@ -149,6 +161,37 @@ const projects = [
 export default function PortfolioSection() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [lightbox, setLightbox] = useState<{ image: string; title: string } | null>(null);
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    if (!lightbox) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setLightbox(null);
+        setZoom(1);
+      } else if (event.key === "+" || event.key === "=") {
+        setZoom((current) => Math.min(3, current + 0.25));
+      } else if (event.key === "-") {
+        setZoom((current) => Math.max(0.5, current - 0.25));
+      } else if (event.key === "0") {
+        setZoom(1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightbox]);
+
+  const openLightbox = (image: string, title: string) => {
+    setZoom(1);
+    setLightbox({ image, title });
+  };
+
+  const closeLightbox = () => {
+    setZoom(1);
+    setLightbox(null);
+  };
 
   const filtered = activeFilter === "All"
     ? projects
@@ -207,7 +250,7 @@ export default function PortfolioSection() {
                 className={`group relative overflow-hidden cursor-pointer ${
                   project.category === "T-shirt Design" ? "aspect-[3/4]" : "aspect-[4/3]"
                 } bg-white/5`}
-                onClick={() => setLightbox({ image: project.image, title: project.title })}
+                onClick={() => openLightbox(project.image, project.title)}
                 data-testid={`portfolio-card-${project.id}`}
               >
                 <img
@@ -219,7 +262,7 @@ export default function PortfolioSection() {
                       : "object-cover group-hover:scale-110"
                   }`}
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-500 flex flex-col items-center justify-center">
+                <div className="dark-surface absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-500 flex flex-col items-center justify-center">
                   <ZoomIn
                     size={32}
                     className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-3"
@@ -259,8 +302,8 @@ export default function PortfolioSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 lightbox-overlay flex items-center justify-center p-6"
-            onClick={() => setLightbox(null)}
+            className="dark-surface fixed inset-0 z-50 lightbox-overlay flex items-center justify-center p-6"
+            onClick={closeLightbox}
             data-testid="lightbox-overlay"
           >
             <motion.div
@@ -268,21 +311,75 @@ export default function PortfolioSection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="relative max-w-4xl w-full"
+              role="dialog"
+              aria-modal="true"
+              aria-label={lightbox.title}
+              className="relative w-full max-w-5xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors"
-                onClick={() => setLightbox(null)}
-                data-testid="button-close-lightbox"
+              <div className="absolute -top-14 right-0 flex items-center gap-2">
+                <button
+                  type="button"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/70 text-white transition-colors hover:border-primary hover:text-primary disabled:opacity-40"
+                  onClick={() => setZoom((current) => Math.max(0.5, current - 0.25))}
+                  aria-label="Zoom out"
+                  title="Zoom out"
+                  disabled={zoom <= 0.5}
+                  data-testid="button-zoom-out"
+                >
+                  <ZoomOut size={17} />
+                </button>
+                <span className="min-w-12 text-center text-xs text-white/70" aria-live="polite">
+                  {Math.round(zoom * 100)}%
+                </span>
+                <button
+                  type="button"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/70 text-white transition-colors hover:border-primary hover:text-primary disabled:opacity-40"
+                  onClick={() => setZoom((current) => Math.min(3, current + 0.25))}
+                  aria-label="Zoom in"
+                  title="Zoom in"
+                  disabled={zoom >= 3}
+                  data-testid="button-zoom-in"
+                >
+                  <ZoomIn size={17} />
+                </button>
+                <button
+                  type="button"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/70 text-white transition-colors hover:border-primary hover:text-primary"
+                  onClick={() => setZoom(1)}
+                  aria-label="Reset zoom"
+                  title="Reset zoom"
+                  data-testid="button-reset-zoom"
+                >
+                  <RotateCcw size={16} />
+                </button>
+                <button
+                  type="button"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 bg-black/70 text-white transition-colors hover:border-primary hover:text-primary"
+                  onClick={closeLightbox}
+                  aria-label="Close image"
+                  title="Close image"
+                  data-testid="button-close-lightbox"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <div
+                className="flex max-h-[80vh] w-full items-center justify-center overflow-auto"
+                onWheel={(event) => {
+                  event.preventDefault();
+                  setZoom((current) =>
+                    Math.min(3, Math.max(0.5, current + (event.deltaY < 0 ? 0.1 : -0.1))),
+                  );
+                }}
               >
-                <X size={28} />
-              </button>
-              <img
-                src={lightbox.image}
-                alt={lightbox.title}
-                className="w-full max-h-[80vh] object-contain"
-              />
+                <img
+                  src={lightbox.image}
+                  alt={lightbox.title}
+                  className="h-auto max-h-[80vh] max-w-full w-auto object-contain transition-transform duration-200"
+                  style={{ transform: `scale(${zoom})` }}
+                />
+              </div>
               <p className="text-center text-white/70 text-sm uppercase tracking-widest mt-4">
                 {lightbox.title}
               </p>

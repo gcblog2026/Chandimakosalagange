@@ -87,6 +87,30 @@
   --radius: 0.5rem;
 }
 
+.light {
+  color-scheme: light;
+  --background: 42 34% 97%;
+  --foreground: 225 14% 16%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 225 14% 16%;
+  --card-border: 220 14% 85%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 225 14% 16%;
+  --popover-border: 220 14% 85%;
+
+  --secondary: 220 18% 92%;
+  --secondary-foreground: 225 14% 18%;
+
+  --muted: 40 22% 92%;
+  --muted-foreground: 220 9% 38%;
+
+  --border: 220 14% 84%;
+  --input: 220 14% 84%;
+  --ring: 43 75% 38%;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -133,4 +157,136 @@ canvas {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+
+/* Light theme support for the existing dark-styled portfolio components. */
+html.light,
+html.light body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+html.light .theme-page-shell {
+  background-color: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html.light [class~="bg-black"] {
+  background-color: hsl(var(--background)) !important;
+}
+
+html.light .site-navbar {
+  background-color: rgb(250 249 244 / 94%) !important;
+  border-bottom: 1px solid rgb(37 35 29 / 12%);
+  backdrop-filter: blur(14px);
+}
+
+html.light .site-mobile-menu {
+  background-color: hsl(var(--background)) !important;
+}
+
+html.light [class~="text-white"] {
+  color: #292720 !important;
+}
+
+html.light [class~="text-white/20"],
+html.light [class~="text-white/25"],
+html.light [class~="text-white/30"],
+html.light [class~="text-white/35"],
+html.light [class~="text-white/40"] {
+  color: rgb(41 39 32 / 56%) !important;
+}
+
+html.light [class~="text-white/45"],
+html.light [class~="text-white/50"],
+html.light [class~="text-white/55"],
+html.light [class~="text-white/60"] {
+  color: rgb(41 39 32 / 72%) !important;
+}
+
+html.light [class~="text-white/70"],
+html.light [class~="text-white/75"],
+html.light [class~="text-white/80"],
+html.light [class~="text-white/90"] {
+  color: rgb(41 39 32 / 88%) !important;
+}
+
+html.light [class~="text-primary"] {
+  color: #906700 !important;
+}
+
+html.light [class~="border-white/5"],
+html.light [class~="border-white/8"],
+html.light [class~="border-white/[0.08]"],
+html.light [class~="border-white/10"] {
+  border-color: rgb(36 34 29 / 12%) !important;
+}
+
+html.light [class~="border-white/15"],
+html.light [class~="border-white/20"] {
+  border-color: rgb(36 34 29 / 19%) !important;
+}
+
+html.light [class~="border-white/30"],
+html.light [class~="border-white/40"],
+html.light [class~="border-white/70"] {
+  border-color: rgb(36 34 29 / 34%) !important;
+}
+
+html.light [class~="bg-white/[0.01]"],
+html.light [class~="bg-white/[0.02]"],
+html.light [class~="bg-white/[0.03]"],
+html.light [class~="bg-white/[0.04]"],
+html.light [class~="bg-white/5"] {
+  background-color: rgb(36 34 29 / 3%) !important;
+}
+
+html.light .cv-document {
+  background-color: #fff !important;
+}
+
+html.light input,
+html.light textarea,
+html.light select {
+  color: #292720;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: rgb(41 39 32 / 48%) !important;
+}
+
+html.light .dark-surface {
+  color: #fff !important;
+}
+
+html.light .dark-surface[class~="bg-black"],
+html.light .dark-surface [class~="bg-black"] {
+  background-color: #080808 !important;
+}
+
+html.light .dark-surface [class*="text-white"] {
+  color: #fff !important;
+}
+
+html.light .dark-surface [class*="border-white"] {
+  border-color: rgb(255 255 255 / 24%) !important;
+}
+
+html.light .dark-surface [class*="text-primary"] {
+  color: hsl(45 89% 55%) !important;
+}
+
+html.light .dark-surface [class*="bg-white/"] {
+  background-color: rgb(255 255 255 / 10%) !important;
+}
+
+html.light .dark-surface input,
+html.light .dark-surface textarea {
+  color: #fff;
+}
+
+html.light .dark-surface input::placeholder,
+html.light .dark-surface textarea::placeholder {
+  color: rgb(255 255 255 / 35%) !important;
 }

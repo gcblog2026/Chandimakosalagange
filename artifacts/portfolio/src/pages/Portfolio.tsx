@@ -14,9 +14,6 @@ export default function PortfolioPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Force dark mode
-    document.documentElement.classList.add("dark");
-    
     // Minimal loading duration
     const timer = setTimeout(() => {
       setLoading(false);
@@ -26,7 +23,7 @@ export default function PortfolioPage() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white selection:bg-primary selection:text-black">
+    <div className="theme-page-shell bg-black min-h-screen text-white selection:bg-primary selection:text-black">
       {loading && <LoadingScreen />}
       
       <Navbar />

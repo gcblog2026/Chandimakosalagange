@@ -98,7 +98,7 @@ export default function CVSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="border border-white/10 bg-[#080808] select-none pointer-events-none"
+          className="cv-document border border-white/10 bg-[#080808] select-none pointer-events-none"
           style={{ userSelect: "none" }}
           data-testid="cv-document"
         >
