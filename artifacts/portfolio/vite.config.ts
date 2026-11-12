@@ -24,7 +24,15 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay({
-      filter: (error) => !error.stack?.includes("chrome-extension://"),
+      filter: (error) => {
+        const stack = error.stack ?? "";
+        const isExtensionError = stack.includes("chrome-extension://");
+        const isRedactedBrowserError =
+          error.message === "(unknown runtime error)" &&
+          stack.includes("sendError");
+
+        return !isExtensionError && !isRedactedBrowserError;
+      },
     }),
     {
       name: "portfolio-contact-api",
