@@ -32,7 +32,9 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    runtimeErrorOverlay(),
+    runtimeErrorOverlay({
+      filter: (error) => !error.stack?.includes("chrome-extension://"),
+    }),
     {
       name: "portfolio-contact-api",
       configureServer(server) {
