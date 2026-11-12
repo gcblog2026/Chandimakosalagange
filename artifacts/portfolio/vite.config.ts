@@ -5,13 +5,9 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { handleContactRequest } from "./server/contact-handler.mjs";
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
+// Publishing runs the Vite build without a listening port. Keep a local
+// default for build-time config; managed dev and production servers provide PORT.
+const rawPort = process.env.PORT ?? "5173";
 
 const port = Number(rawPort);
 
@@ -19,13 +15,8 @@ if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
+// This artifact is mounted at "/", so the default also matches production builds.
+const basePath = process.env.BASE_PATH || "/";
 
 export default defineConfig({
   base: basePath,
